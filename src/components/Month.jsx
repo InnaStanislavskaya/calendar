@@ -1,26 +1,38 @@
 import { Day } from './Day';
 
+const DAYS_IN_WEEK = 7;
+
+function createDayOfWeekNames() {
+    const zeroDay = new Date();
+    const firstDayOfWeekDate = zeroDay.getDate() - zeroDay.getDay();
+    zeroDay.setDate(firstDayOfWeekDate);
+
+    const daysOfWeek = [];
+    
+    for(let i = 0; i < DAYS_IN_WEEK; i = i + 1) {
+        const dayText = zeroDay.toLocaleDateString('default', { weekday: 'short' });
+        daysOfWeek.push({ label: dayText });
+        zeroDay.setDate(zeroDay.getDate() + 1);
+    }
+
+    return daysOfWeek;
+}
+
 export const Month = ({ year, month }) => {
     const monthDate = new Date(year, month - 1);
-    const monthName =  monthDate
-    .toLocaleString('default', { month: 'long' });
+    const monthName =  monthDate.toLocaleDateString('default', { month: 'long' });
+
+    const daysOfWeek = createDayOfWeekNames();
     
-    const days = Array(31).fill().map((x, index) => ({
-        label: String(index + 1),
-    }));
+    const days = [];
 
-    const daysOfWeek = [
-        { label: 'Mon' },
-        { label: 'Tue' },
-        { label: 'Wed' },
-        { label: 'Thu' },
-        { label: 'Fri' },
-        { label: 'Sat' },
-        { label: 'Sun' },
-    ];
+    while (monthDate.getMonth() === month - 1) {
+        days.push({ label: monthDate.getDate() });
+        monthDate.setDate(monthDate.getDate() + 1);
+    }
 
-    for (let i = monthDate.getDay() - 1; i > 0; i = i - 1) {
-        daysOfWeek.push({ label: ''})
+    for (let i = new Date(year, month - 1).getDay(); i > 0; i = i - 1) {
+        days.unshift({ label: ''});
     }
 
     days.unshift(...daysOfWeek);
