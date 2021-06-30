@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Day } from './Day';
 
 const DAYS_IN_WEEK = 7;
@@ -39,7 +40,9 @@ export const Month = ({ year, month }) => {
     
     return (
         <div className ='month'>
-            <div className='month-name'>{monthName}</div>
+            <Link to={`/year/${year}/month/${month}`}>
+                <div className='month-name'>{monthName}</div>
+            </Link>
             <div className='dayList'>
                 {days.map((day, index) => <Day key={index} day={day.label}/>)}
             </div>
