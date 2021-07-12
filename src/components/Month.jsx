@@ -44,7 +44,9 @@ export const Month = ({ year, month }) => {
                 <div className='month-name'>{monthName}</div>
             </Link>
             <div className='dayList'>
-                {days.map((day, index) => <Day key={index} day={day.label}/>)}
+                {days.map((day, index) => (
+                    <Day key={index} year={year} month={month} day={day.label}/>
+                ))}
             </div>
         </div>
     );
