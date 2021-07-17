@@ -5,16 +5,21 @@ import { Year } from '../components/Year';
 import './App.css';
 import { useEffect, useState} from 'react';
 import { NotesContext } from '../tools/notesProvider';
+import { notesManager } from '../model/notesManager';
 
 
 export function App() {
   const history = useHistory();
+  const [notes, setNotes] = useState({});
 
-  const [notes, setNotes] = useState({ 
-    '2021-08-01': 'Hello',
-  });
-
-  // useEffect(() => console.log('Effect called'), [notes]);
+  useEffect(() => {
+    console.log('Load from LocalStorage');
+    notesManager.addEventListener('update', () => {
+      setNotes(notesManager.notes)
+    })
+    
+    setNotes(notesManager.notes);
+  }, []);
 
   const handleYearChange = (newValue) => {
     history.push(`/year/${newValue}`);
